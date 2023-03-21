@@ -1,6 +1,10 @@
 package com.github.haskiro.FirstRestApp.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -13,10 +17,18 @@ public class Person {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotEmpty(message = "Name must not be empty")
+    @Size(min = 2, max = 30, message = "Name length must be between 2 and 30 characters")
     @Column(name = "name")
     private String name;
+
+    @Min(value = 0,  message = "Age must be positive")
     @Column(name = "age")
     private int age;
+
+    @Email(message = "Email must match the pattern example@example.com")
+    @NotEmpty(message = "Email must not be empty")
     @Column(name = "email")
     private String email;
 

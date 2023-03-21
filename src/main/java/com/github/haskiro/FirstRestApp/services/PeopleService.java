@@ -3,9 +3,12 @@ package com.github.haskiro.FirstRestApp.services;
 import com.github.haskiro.FirstRestApp.models.Person;
 import com.github.haskiro.FirstRestApp.repositories.PeopleRepository;
 import com.github.haskiro.FirstRestApp.util.PersonNotFoundExceptions;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Date;
 import java.util.List;
@@ -30,5 +33,11 @@ public class PeopleService {
         Optional<Person> foundPerson =  peopleRepository.findById(id);
 
         return foundPerson.orElseThrow(PersonNotFoundExceptions::new);
+    }
+
+    @Transactional
+    public void save(Person person) {
+        person.setCreatedAt(new Date());
+        peopleRepository.save(person);
     }
 }
